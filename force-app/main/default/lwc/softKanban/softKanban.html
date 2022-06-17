@@ -1,0 +1,30 @@
+<template>
+
+    <c-soft-modal opportunity-name={Prueba} opportunity-description={Description}></c-soft-modal>
+
+    <div style="display: flex;">
+        <template iterator:group={groupedOpportunities}>
+            <div class="stage-section-container" key={group.value.stage}>
+                <div class="group-section" data-drop-stage={group.value.stage} ondragenter={handleDragEnter} ondragleave={handleDragLeave} ondrop={handleDrop} ondragover={handleDragOver}>
+                    <div>{group.value.stage}</div>
+                    
+                    <template iterator:opportunity={group.value}>
+                        <div key={opportunity.value.Id}>
+                            <div class="draggable-box opportunity-section-container" draggable="true" ondragstart={handleDragStart} ondragend={handleDragEnd} data-stage={group.value.stage} data-id={opportunity.value.Id}>
+                                <div class="item-section">
+                                    <div>{opportunity.value.Name}</div>
+                                </div>
+                            </div>
+                        </div>
+                    </template>
+
+                    <div class="add-button-container" data-stage={group.value.stage}>
+                        <button data-stage={group.value.stage} onclick={handleAdd}>Add Oppty</button>
+                    </div>
+
+                </div>
+            </div>
+        </template>
+    </div>
+
+</template>

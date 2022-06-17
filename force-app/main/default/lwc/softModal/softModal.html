@@ -1,0 +1,30 @@
+<template>
+<section role="dialog" tabindex="-1" aria-modal="true" aria-labelledby="modal-heading-01" class="slds-modal slds-fade-in-open">
+    <div class="slds-modal__container">
+    <button class="slds-button slds-button_icon slds-modal__close slds-button_icon-inverse" onclick={closeModal}>
+        <svg class="slds-button__icon slds-button__icon_large" aria-hidden="true">
+        <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#close"></use>
+        </svg>
+        <span class="slds-assistive-text">Cancel and close</span>
+    </button>
+    <div class="slds-modal__header">
+        <c-soft-text-area text={opportunityName} onchange={updateName}>
+            <h1 id="modal-heading-01" class="slds-modal__title slds-hyphenate">{opportunityName}</h1>
+        </c-soft-text-area>
+    </div>
+    <div class="slds-modal__content slds-p-around_medium" id="modal-content-id-1">
+        <c-soft-text-area text={opportunityDescription} onchange={updateDescription}>
+            {opportunityDescription}
+        </c-soft-text-area>
+    </div>
+    <div class="slds-modal__footer">
+        <template if:false={hasId}>
+            <button class="slds-button slds-button_destructive" onclick={deleteOppty}>Delete</button>
+            <button class="slds-button slds-button_neutral" aria-label="Cancel and close" onclick={closeModal}>Cancel</button>
+            <button class="slds-button slds-button_brand" onclick={saveOppty}>Save</button>
+        </template>
+    </div>
+    </div>
+</section>
+<div class="slds-backdrop slds-backdrop_open" role="presentation"></div>
+</template>
