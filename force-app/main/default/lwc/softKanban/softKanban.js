@@ -13,15 +13,26 @@ export default class SoftKanban extends LightningElement {
 
     groupedOpportunities = [];
     oppsByStage = {};
+    showModal= false;
+    selectedOpptyId;
+    selectedOpptyName;
+    selectedOpptyDescription;
+    selectedOpptyStage;
 
+    // event util vars.
     draggingItem;
     draggingCount;
+    prevClickTimestamp;
 
     async connectedCallback()
     {
-        this.oppsByStage = await getOppotunitiesByStage();
-        this.groupedOpportunities = this.buildOpptiesArr(this.oppsByStage);
+        await this.retrieveOppties();
 
+        console.log(this.groupedOpportunities);
+    }
+
+    hideModal(e){
+        this.showModal = false;
     }
 
     buildOpptiesArr(oppsByStage){
@@ -39,9 +50,33 @@ export default class SoftKanban extends LightningElement {
 
     handleAdd(event){
         if(event.target.dataset.stage){
-            console.log('add new opp in stage named: ');
-            console.log(event.target.dataset.stage);
+            this.openOpptyModal({Id: undefined, Name: 'Name', Description: 'Description...', Stage: event.target.dataset.stage});
         }
+    }
+
+    handleClick(e){
+        var delta = new Date(new Date().getTime() - this.prevClickTimestamp); 
+        if(delta < 500){ // doble click.
+            var opptyNode = e.target;
+            while(opptyNode && !opptyNode.dataset.id){opptyNode = opptyNode.parentNode; }
+
+            this.openOpptyModal({Id: opptyNode.dataset.id, Name: opptyNode.dataset.name, Description: opptyNode.dataset.description});
+        }else{
+            this.prevClickTimestamp = new Date().getTime();
+        }
+    }
+
+    openOpptyModal(opptyData){
+        this.selectedOpptyId = opptyData.Id;
+        this.selectedOpptyName = opptyData.Name;
+        this.selectedOpptyDescription = opptyData.Description;
+        this.selectedOpptyStage = opptyData.Stage;
+        this.showModal = true;
+    }
+
+    async retrieveOppties(){
+        this.oppsByStage = await getOppotunitiesByStage();
+        this.groupedOpportunities = this.buildOpptiesArr(this.oppsByStage);
     }
 
     /** DRAG EVENTS **/

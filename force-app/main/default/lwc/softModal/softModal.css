@@ -1,1 +1,3 @@
-.unused {}
+.close-icon {
+    --sds-c-icon-color-foreground: white;
+}

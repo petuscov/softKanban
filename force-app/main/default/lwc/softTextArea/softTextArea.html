@@ -1,11 +1,13 @@
 <template>
     <!-- onclick={setEditing} -->
     <div onmouseenter={setEditing} onmouseleave={setNotEditing}>
-        <template if:false={isBeingEdited}>
-            <slot></slot>
-        </template>
-        <template if:true={isBeingEdited}>
-            <textarea id="textarea-id-01" class="slds-textarea" onchange={handleChange}>{text}</textarea>
-        </template>
+        <div class = 'min-height'>
+            <template if:false={isBeingEdited}>
+                <slot></slot>
+            </template>
+            <template if:true={isBeingEdited}>
+                <textarea type=text id="textarea-id-01" class="slds-textarea" oninput={handleChange}>{text}</textarea>
+            </template>
+        </div>
     </div>
 </template>

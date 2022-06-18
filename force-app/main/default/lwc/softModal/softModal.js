@@ -11,6 +11,8 @@ export default class SoftModal extends LightningElement {
     opportunityName;
     @api
     opportunityDescription;
+    @api
+    opportunityStage;
 
     connectedCallback(){
         this.hasId = this.opportunityId !== undefined; 
@@ -24,16 +26,22 @@ export default class SoftModal extends LightningElement {
     }
 
     async deleteOppty(){
-        await deleteOppotunity({opptyId: opportunityId});
-        closeModal();
+        await deleteOppotunity({opptyId: this.opportunityId});
+        this.reretrieveOppties(); // idealmente actuar sobre ui y evitar una nueva petición SOQL.
+        this.closeModal();
     }
 
     async saveOppty(){
-        await upsertOppotunity({opptyId: opportunityId, name: opportunityName, description: opportunityDescription});
-        closeModal();
+        await upsertOppotunity({opptyId: this.opportunityId, name: this.opportunityName, description: this.opportunityDescription, stage: this.opportunityStage});
+        this.reretrieveOppties(); // idealmente actuar sobre ui y evitar una nueva petición SOQL.
+        this.closeModal();
     }
 
     closeModal(){
-        delete this.template;
+        this.dispatchEvent(new CustomEvent('hidemodal'));
+    }
+
+    reretrieveOppties(){
+        this.dispatchEvent(new CustomEvent('retrieveoppties'));
     }
 }

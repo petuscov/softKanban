@@ -64,7 +64,7 @@ public with sharing class KanbanController {
 
     
     @AuraEnabled
-    public static void upsertOppotunity(Id opptyId, String name, String description)
+    public static void upsertOppotunity(Id opptyId, String name, String description, String stage)
     {
         Opportunity oppty;
         if(opptyId != null)
@@ -72,8 +72,12 @@ public with sharing class KanbanController {
             oppty = [SELECT Id, Name, Description FROM Opportunity WHERE Id = :opptyId];
         }else{
             oppty = new Opportunity();
-            oppty.Name = name;
-            oppty.Description = description;
+            oppty.CloseDate = Date.newInstance(2099, 12, 30);
+        }
+        oppty.Name = name;
+        oppty.Description = description;
+        if(stage != null){
+            oppty.StageName = stage;
         }
 
         upsert oppty;

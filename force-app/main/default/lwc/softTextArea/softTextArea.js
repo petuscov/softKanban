@@ -15,8 +15,8 @@ export default class SoftTextArea extends LightningElement {
     }
 
     handleChange(e){
-        this.text = e.detail.value;
-        var changeEvent = new CustomEvent('change', {detail: this.text});
+        this.text = e.target.value;
+        var changeEvent = new CustomEvent('textchange', {detail: {value: this.text}});
         this.dispatchEvent(changeEvent);
     }
 
